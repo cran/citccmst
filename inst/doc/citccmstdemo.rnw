@@ -1,0 +1,142 @@
+\documentclass[11pt]{article}
+
+\usepackage{graphics}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{verbose,letterpaper,tmargin=20mm,bmargin=20mm,lmargin=3cm,rmargin=3cm}
+\SweaveOpts{echo=TRUE}
+\setlength{\parindent}{0pt}
+
+% \VignetteIndexEntry{citccmst}
+
+\begin{document}
+<<foo,include=FALSE,echo=FALSE>>=
+foo <- packageDescription("citccmst")
+@
+% \options(keep.source = TRUE, width = 90)
+
+\title{\bf citccmst : CIT Colon Cancer Molecular Subtypes Prediction}
+\author{<CITR@ligue-cancer.net>}
+
+\maketitle
+
+\begin{center}
+ \textit{Cartes d'Identit\'e des Tumeurs} research program - Ligue Nationale Contre le Cancer, Paris, France
+\\(http://cit.ligue-cancer.net)
+\end{center}
+
+% SECTION Overview
+\section*{Overview}
+The work by Marisa et al\cite{marisa13} exploited a large multicenter and extensively characterized series of CC to establish a robust molecular classification based on transcriptome data.
+This package implements the approach used in the article to assign an expression profile to one of the 6 colon cancer molecular subtypes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+
+
+
+% SECTION subtypes prediction
+\section{The CIT Subtypes Prediction Approach}
+To assign a sample to one of the 6 CIT colon cancer molecular subtypes from its expression profile, a centroid based approach is used.
+The centroids of the 6 CIT colon cancer molecular subtypes were defined on 443 samples and 57 probe sets corresponding to unique gene symbols.
+These data are in the object \textit{citccmst} and is automatically loaded with the package :
+<<centroid>>=
+library(citccmst)
+summary(citccmst)
+@
+
+\textit{citccmst} contains the following objects :
+\begin{description}
+\item[data] the CIT discovery set normalized expression data matrix
+\item[data.cl] the CIT discovery set colon cancer molecular subtypes
+\item[data.annot] the CIT discovery set probe sets annotations provided by NetAffx (version na31) in order to map samples from other plateforms than Affymetrix
+\end{description}
+
+
+To assign a new sample to a CIT subtype ( \textbf{\textit{cit.assignCcmst}} function) the following steps are performed:
+\begin{enumerate}
+\item{mapping the probes from the new expression dataset to the 57 discrimating probe sets used in the CIT centroids (or to the 57 corresponding gene symbols, when the microarray platform of the new dataset is not Affymetrix HG U133 plus 2.0) }
+\item{averaging expression measures per gene symbol both in the new dataset and in the CIT coreset, if step 1 is based on gene symbols. In any case, the external data and the CIT discovery set data are reduced to discrimating probes/genes measured in both datasets. }
+\item{recomputing the CIT centroids of the 6 CIT subtypes using the CIT original data resulting from step 2 }
+\item{computing distance of the new sample(s) to those 6 centroids}
+\item{assigning each sample to the subtype corresponding to the closest centroid\\
+In some case, (1) a sample can be close to several centroids or (2) the closest centroid can be too far to confidently assign the sample to a given subtype.
+In the first case, the sample will be considered as a \textit{"mixed"} sample and in the second case as an outlier.
+In both cases, those samples may be classified as uncertain and removed from the analysis.\\}
+\end{enumerate}
+
+The output of \textbf{\textit{cit.assignCcmst}} is a dataframe with n rows (n= the number of samples in the new dataset) and 4 columns :
+\begin{description}
+\item[citccmst] the subtype of the closest centroid for each sample
+\item[citccmst.mixed] the subtypes of the closest centroids for each sample (for "mixed" samples every subtypes are given) 
+\item[citccmst.core] subtypes of the closest centroid for "core" samples only ("outlier" and  "mixed" samples are set to NA)
+\item[citccmst.confidence] confidence annotation CORE, OUTLIER or MIXED 
+\end{description}
+The cut-off values to define mixed and outlier samples are automatically computed but can be set manually (cf help(cit.assignCcmst)).
+\\
+\\
+Only an expression data matrix/data.frame, with ids as rownames, is required (cf section\ref{example}).\\
+Affymetrix external expression data should be normalized as CIT discovery set data, i.e. by RMA method (justRma function in \textit{affy} R package with default parameters). No row centering is required as it will be computed during the assignment process. 
+The approach has been defined for Affymetrix HG U133Plus2 chip expression data, therefore the prediction given for other platforms is expected to be less reliable.
+\\
+
+
+
+
+% SECTION EXAMPLE
+\newpage
+\section{Example}
+Here is an example on the expression profiles of colon tumors used in the validation set of Marisa et al\cite{marisa13}. 
+
+\label{example}
+<<affy>>=
+load(list.files(system.file("extdata", package="citccmst"), full.names=TRUE)) # load citvalid.exp.norm object stored in /inst/extdata
+
+citvalid.exp.annot <- data.frame(id=rownames(citvalid.exp.norm), stringsAsFactors=FALSE, row.names=rownames(citvalid.exp.norm) )
+@
+
+<<label=fig1plot, fig=FALSE,echo=TRUE>>=
+citvalid.citccmst <- cit.assignCcmst(   data=citvalid.exp.norm,
+                                        data.annot=citvalid.exp.annot,
+                                        data.colId="id",
+                                        data.colMap="id" ,
+                                        citccmst.colMap="Probe.Set.ID",
+                                        dist.method="dqda",
+                                        plot=T
+                )
+@
+
+<<affy2>>=
+str(citvalid.citccmst)
+table(citvalid.citccmst$citccmst)
+table(citvalid.citccmst$citccmst.mixed)
+table(citvalid.citccmst$citccmst.core)
+table(citvalid.citccmst$citccmst.confidence)
+@
+
+\begin{figure}
+\begin{center}
+<<label=fig1,fig=TRUE,echo=FALSE>>=
+<<fig1plot>>
+@
+\end{center}
+\caption{PCA of CIT discovery set data and validation set data}
+\label{fig:one}
+\end{figure}
+
+
+
+
+{\small
+\begin{thebibliography}{99}
+\bibitem{marisa13} Marisa L et al. (2013).
+\emph{Gene Expression Classification of Colon Cancer into Six Molecular Subtypes: Characterization, Validation and Prognostic value}.
+PLoS Medicine (accepted).
+\end{thebibliography}
+}
+
+\end{document}

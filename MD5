@@ -1,0 +1,15 @@
+d34c0e065405d0449a750cf97f8a9ca6 *DESCRIPTION
+df390c53434517b304ac5db487184641 *NAMESPACE
+d202652ca879e4086650a7c8ac5767fb *R/cit.ccmst.R
+10a7f456dc37c5b8afef2960e4b73572 *R/cit.centroidsFunc.R
+104eb18ebfd6d42c2b96cdc442a2401b *data/citccmst.RData
+36d3eedbfab2f4d7c4828a8e2ee6e06b *inst/doc/citccmstdemo.R
+e6b4ac61211640bdbf063f444d1e596c *inst/doc/citccmstdemo.pdf
+198a0450aa98e9a42aa7714d85bde031 *inst/doc/citccmstdemo.rnw
+d49f2901eee2a2abd4084eb4fd3ef620 *inst/extdata/citvalid.exp.norm.RData
+497e68e8c6daa9ab37fccb7510e611c3 *man/cit.assignCcmst.Rd
+debce11a9a8a1457b8dbb087555f0455 *man/cit.centroids.Rd
+ba9d90c7dffade4e73c3a14da6c008a7 *man/cit.dfAggregate.Rd
+c356796c6c1518a3caf1b6643512e158 *man/cit.dist.Rd
+85727efce2db8eec3bc535abb03b949c *man/cit.distToCentroids.Rd
+793e1b8e399f839ba47f0820202bf01e *man/citccmst.Rd
