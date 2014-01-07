@@ -2,7 +2,15 @@
 \alias{cit.distToCentroids}
 \title{cit.distToCentroids}
 \description{calculate distance between individuals and centroids; used in \code{cit.centroids()}}
-\usage{cit.distToCentroids(d,centroids,dist.meth=c("spearman","euclidian","maximum","manhattan","canberra","binary","minkowski","pearson","dlda","dqda"),maxDist=0.5,d.isPretreated=FALSE,sdifftop=NULL,sdisttocent=NULL,verbose=FALSE)}
+\usage{cit.distToCentroids( d,
+centroids,
+dist.meth=c("spearman","euclidian","maximum","manhattan",
+"canberra","binary","minkowski","pearson","dlda","dqda"),
+maxDist=0.5,
+d.isPretreated=FALSE,
+sdifftop=NULL,
+sdisttocent=NULL,
+verbose=FALSE)}
 \arguments{
 \item{d}{a \code{data.frame} of numeric data}
 \item{centroids}{object obtained via a call to \code{cit.centroids()} (see slot 'centroids')}

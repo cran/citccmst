@@ -2,7 +2,13 @@
 \alias{cit.dist}
 \title{cit.dist}
 \description{This function computes and returns the distance matrix computed by using the specified distance measure to compute the distances between the rows of a data matrix.}
-\usage{cit.dist(x,meth="pearson",use="pairwise.complete.obs",diag=FALSE,upper=FALSE,p=2,replaceNA=TRUE) }
+\usage{cit.dist( x,
+meth="pearson",
+use="pairwise.complete.obs",
+diag=FALSE,
+upper=FALSE,
+p=2,
+replaceNA=TRUE) }
 \arguments{
 \item{x}{a numeric matrix, data frame or "dist" object.}
 \item{meth}{the distance measure to be used. This must be one of "pearson","spearman","euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski". Any unambiguous substring can be given.}

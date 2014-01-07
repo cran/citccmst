@@ -2,7 +2,15 @@
 \alias{cit.centroids}
 \title{cit.centroids}
 \description{define centroids for a given partition of individuals (columns) and calculate distance between individuals and centroids}
-\usage{cit.centroids(  d,classes,rowCentering=c(NA,function(x)mean(x, na.rm=TRUE),function(x)median(x, na.rm=TRUE))[[3]],rowClassesForAggregation=NULL,rowClassesToKeep=NULL,dist.meth=c("spearman","euclidian","maximum","manhattan","canberra","binary","minkowski","pearson","dlda","dqda"),maxDist=0.5,...)}
+\usage{cit.centroids(  d,
+classes,
+rowCentering=c(NA,function(x)mean(x, na.rm=TRUE),function(x)median(x, na.rm=TRUE))[[3]],
+rowClassesForAggregation=NULL,
+rowClassesToKeep=NULL,
+dist.meth=c("spearman","euclidian","maximum","manhattan",
+"canberra","binary","minkowski","pearson","dlda","dqda"),
+maxDist=0.5,
+...)}
 \arguments{
 \item{d}{a \code{data.frame} of numeric data}
 \item{classes}{a vector defining a partition of \code{data} columns (\code{NA} values accepted)}

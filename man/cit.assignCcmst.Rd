@@ -2,7 +2,17 @@
 \alias{cit.assignCcmst}
 \title{cit.assignCcmst}
 \description{assign expression data sample(s) to CIT Colon Cancer Molecular Subtype(s)}
-\usage{cit.assignCcmst(  data,data.annot,data.colId="Probe.Set.ID",data.colMap=c("Probe.Set.ID","Gene.Symbol","Ensembl","UniGene.ID")[1],citccmst.annot=NULL,citccmst.colId="Probe.Set.ID",citccmst.colMap=c("Probe.Set.ID","Gene.Symbol","Ensembl","UniGene.ID")[1],dist.method="dqda",dist.difftopcentcutoff=NULL,dist.disttocentcutoff=NULL,dist.maxcutoff=NULL,plot=FALSE)}
+\usage{cit.assignCcmst(  data,
+data.annot,
+data.colId="Probe.Set.ID",
+data.colMap=c("Probe.Set.ID","Gene.Symbol","Ensembl","UniGene.ID")[1],
+citccmst.annot=NULL,citccmst.colId="Probe.Set.ID",
+citccmst.colMap=c("Probe.Set.ID","Gene.Symbol","Ensembl","UniGene.ID")[1],
+dist.method="dqda",
+dist.difftopcentcutoff=NULL,
+dist.disttocentcutoff=NULL,
+dist.maxcutoff=NULL,
+plot=FALSE)}
 \arguments{
 \item{data}{a data.frame of expression data with id as rownames}
 \item{data.annot}{a data.frame of data probes annotations}
@@ -22,8 +32,10 @@
 \author{Laetitia Marisa}
 \keyword{methods}
 \examples{
-#load(list.files(system.file("extdata", package="citccmst"), full.names=TRUE)) #load citvalid.exp.norm object
-#citvalid.exp.annot <- data.frame(id=rownames(citvalid.exp.norm), stringsAsFactors=FALSE, row.names=rownames(citvalid.exp.norm) )
+#load(list.files(system.file("extdata", package="citccmst"), full.names=TRUE))
+##load citvalid.exp.norm object
+#citvalid.exp.annot <- data.frame(id=rownames(citvalid.exp.norm), stringsAsFactors=FALSE,
+#                                 row.names=rownames(citvalid.exp.norm) )
 #citccmst <- cit.assignCcmst(     data=citvalid.exp.norm,
 #                                 data.annot=citvalid.exp.annot,
 #                                 data.colId="id",
